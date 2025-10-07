@@ -1,9 +1,10 @@
-import { authOptions } from "@/helpers/authOptions";
-import { getServerSession } from "next-auth";
+
+import { getUserSession } from "@/helpers/getUserSessions";
+
 
 export default async function  DashboardHomePage ()  {
 
-  const session  = await getServerSession(authOptions)
+  const session  = await getUserSession()
   console.log("hello session",session)
   return (
     <div className=" min-h-screen flex flex-col justify-center items-center bg-gray-50 p-6 w-full">

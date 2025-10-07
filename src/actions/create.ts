@@ -1,9 +1,11 @@
 "use server";
 
+import { getUserSession } from "@/helpers/getUserSessions";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 
 export const create = async (data: FormData) => {
+  const session = await getUserSession()
   const blogInfo = Object.fromEntries(data.entries());
   const modifiedData = {
     ...blogInfo,
@@ -13,7 +15,7 @@ export const create = async (data: FormData) => {
       .map((tag) => tag.trim()),
    
     isFeatured: Boolean(blogInfo.isFeatured),
-     authorId: 2,
+     authorId: session?.user?.id,
   };
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/post`, {
@@ -34,3 +36,6 @@ export const create = async (data: FormData) => {
   }
   return result;
 };
+
+
+
